@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141D254D2087FF2900DB351A /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 141D254C2087FF2900DB351A /* credentials.plist */; };
 		14FFCF1E2084F03A001AC347 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFCF1D2084F03A001AC347 /* AppDelegate.swift */; };
 		14FFCF202084F03A001AC347 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFCF1F2084F03A001AC347 /* SignInVC.swift */; };
 		14FFCF232084F03A001AC347 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14FFCF212084F03A001AC347 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		141D254C2087FF2900DB351A /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		14FFCF1A2084F03A001AC347 /* Social Network Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Network Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FFCF1D2084F03A001AC347 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14FFCF1F2084F03A001AC347 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				14FFCF262084F03D001AC347 /* LaunchScreen.storyboard */,
 				14FFCF292084F03D001AC347 /* Info.plist */,
 				14FFCF2F2084F072001AC347 /* GoogleService-Info.plist */,
+				141D254C2087FF2900DB351A /* credentials.plist */,
 			);
 			path = "Social Network Test";
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			files = (
 				14FFCF282084F03D001AC347 /* LaunchScreen.storyboard in Resources */,
 				14FFCF302084F072001AC347 /* GoogleService-Info.plist in Resources */,
+				141D254D2087FF2900DB351A /* credentials.plist in Resources */,
 				14FFCF252084F03D001AC347 /* Assets.xcassets in Resources */,
 				14FFCF232084F03A001AC347 /* Main.storyboard in Resources */,
 			);
@@ -198,9 +202,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Social Network Test/Pods-Social Network Test-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -232,6 +239,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Social Network Test/Pods-Social Network Test-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -239,6 +247,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",

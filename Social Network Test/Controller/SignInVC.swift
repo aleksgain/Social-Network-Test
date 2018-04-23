@@ -9,6 +9,7 @@
 import UIKit
 import GoogleSignIn
 import Firebase
+import SwiftKeychainWrapper
 
 
 class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
@@ -17,13 +18,20 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
     
     
     @IBOutlet weak var userEmail: UITextField!
+    @IBOutlet weak var userPassoword: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
+ 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let _ = KeychainWrapper.standard.string(forKey: "uid") {
+            performSegue(withIdentifier: "goToFeed", sender: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,11 +65,7 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
             let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
             
             self.firebaseAuth(credential)
-                
         
-    
-        
-            
         }
         
         
@@ -74,10 +78,40 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
             if error != nil {
                 print("Error authenticating with Firebase")
             } else {
+                if let user = user {
+                    self.signInSegue(id: user.uid)
+                }
                 print("Much success authenticating, such wow!")
             }
         })
     }
         
+    @IBAction func signInPressed(_ sender: Any) {
+        if let email = userEmail.text, let pwd = userPassoword.text {
+            print(Auth.auth().currentUser?.email)
+            Auth.auth().signIn(withEmail: email, password: pwd) { (user, error) in
+                if error == nil {
+                    print("Access granted with email login")
+                    self.signInSegue(id: (user?.uid)!)
+                } else {
+                    Auth.auth().createUser(withEmail: email, password: pwd, completion: { (user, error) in
+                        if error != nil {
+                            print("Authentication with email failed")
+                        } else {
+                            print("Authenticated with email")  
+                            self.signInSegue(id: (user?.uid)!)
+                    }
+                })
+            }
+        }
+            
+    }
 }
 
+    func signInSegue(id: String) {
+        KeychainWrapper.standard.set(id, forKey: "uid")
+        performSegue(withIdentifier: "goToFeed", sender: nil)
+        
+    }
+    
+}

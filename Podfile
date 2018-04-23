@@ -11,6 +11,6 @@ target 'Social Network Test' do
  pod 'Firebase/Database'
  pod 'Firebase/Storage' 
  pod 'GoogleSignIn'
-
+ pod 'SwiftKeychainWrapper'
 
 end

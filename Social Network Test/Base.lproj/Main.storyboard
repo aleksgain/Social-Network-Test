@@ -111,6 +111,9 @@ EExvZ2luA
 </string>
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="signInPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zEr-cY-vC1"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -137,11 +140,28 @@ EExvZ2luA
                     </view>
                     <connections>
                         <outlet property="userEmail" destination="fEZ-Mh-mDw" id="iKR-L2-ILr"/>
+                        <outlet property="userPassoword" destination="f0b-gc-h3f" id="ZLc-QT-rzq"/>
+                        <segue destination="Kr8-4c-RHH" kind="show" identifier="goToFeed" id="SnL-Z9-gRd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="118.29085457271366"/>
+        </scene>
+        <!--FeedVC-->
+        <scene sceneID="b5l-rj-Fub">
+            <objects>
+                <viewController id="Kr8-4c-RHH" customClass="FeedVC" customModule="Social_Network_Test" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MaP-iO-OIY" customClass="Feed">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="fyj-bh-KYh"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z3m-93-ond" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="929" y="120"/>
         </scene>
     </scenes>
     <resources>

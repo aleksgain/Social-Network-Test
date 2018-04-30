@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		14034BB9208E1FBC00BCC522 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14034BB8208E1FBC00BCC522 /* FeedVC.swift */; };
+		14034BBC20976B0300BCC522 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14034BBB20976B0300BCC522 /* DataService.swift */; };
 		141D254D2087FF2900DB351A /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 141D254C2087FF2900DB351A /* credentials.plist */; };
+		14F5A4402093933D0022BD3E /* postCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F5A43F2093933D0022BD3E /* postCell.swift */; };
+		14F5A44220939AF50022BD3E /* roundImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F5A44120939AF50022BD3E /* roundImg.swift */; };
 		14FFCF1E2084F03A001AC347 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFCF1D2084F03A001AC347 /* AppDelegate.swift */; };
 		14FFCF202084F03A001AC347 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FFCF1F2084F03A001AC347 /* SignInVC.swift */; };
 		14FFCF232084F03A001AC347 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14FFCF212084F03A001AC347 /* Main.storyboard */; };
@@ -22,7 +25,10 @@
 
 /* Begin PBXFileReference section */
 		14034BB8208E1FBC00BCC522 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
+		14034BBB20976B0300BCC522 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		141D254C2087FF2900DB351A /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
+		14F5A43F2093933D0022BD3E /* postCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postCell.swift; sourceTree = "<group>"; };
+		14F5A44120939AF50022BD3E /* roundImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roundImg.swift; sourceTree = "<group>"; };
 		14FFCF1A2084F03A001AC347 /* Social Network Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Network Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FFCF1D2084F03A001AC347 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14FFCF1F2084F03A001AC347 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
@@ -58,6 +64,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		14034BBA20976AE500BCC522 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				14034BBB20976B0300BCC522 /* DataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		14FFCF112084F03A001AC347 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +93,7 @@
 		14FFCF1C2084F03A001AC347 /* Social Network Test */ = {
 			isa = PBXGroup;
 			children = (
+				14034BBA20976AE500BCC522 /* Services */,
 				14FFCF332084F37C001AC347 /* Controller */,
 				14FFCF322084F378001AC347 /* View */,
 				14FFCF312084F370001AC347 /* Model */,
@@ -105,6 +120,8 @@
 			children = (
 				14FFCF3420862911001AC347 /* ViewMods.swift */,
 				14FFCF3620862EAE001AC347 /* RoundButton.swift */,
+				14F5A43F2093933D0022BD3E /* postCell.swift */,
+				14F5A44120939AF50022BD3E /* roundImg.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -206,10 +223,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Social Network Test/Pods-Social Network Test-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,10 +292,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				14034BB9208E1FBC00BCC522 /* FeedVC.swift in Sources */,
+				14F5A44220939AF50022BD3E /* roundImg.swift in Sources */,
+				14F5A4402093933D0022BD3E /* postCell.swift in Sources */,
 				14FFCF3720862EAE001AC347 /* RoundButton.swift in Sources */,
 				14FFCF3520862911001AC347 /* ViewMods.swift in Sources */,
 				14FFCF202084F03A001AC347 /* SignInVC.swift in Sources */,
 				14FFCF1E2084F03A001AC347 /* AppDelegate.swift in Sources */,
+				14034BBC20976B0300BCC522 /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

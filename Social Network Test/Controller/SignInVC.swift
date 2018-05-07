@@ -25,6 +25,8 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
+
+        
  
     }
     

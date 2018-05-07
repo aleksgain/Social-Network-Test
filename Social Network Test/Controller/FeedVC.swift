@@ -11,11 +11,16 @@ import Firebase
 import SwiftKeychainWrapper
 
 
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var userEmail: UILabel!
     
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var addImage: CircleView!
+    
+    var posts = [Post]()
+    var imagePicker: UIImagePickerController!
     
     
     override func viewDidLoad() {
@@ -23,13 +28,41 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         tableView.delegate = self
         
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        
+        DataService.ds.REF_POSTS.observe(.value) { (snapshot) in
+            if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshots {
+                    print(snap)
+                    if let postDict = snap.value as? Dictionary<String,AnyObject> {
+                        let key = snap.key
+                        let post = Post(postKey: key, postData: postDict)
+                        self.posts.append(post)
+                    }
+                }
+                self.tableView.reloadData()
+            }
+        }
         if let email = Auth.auth().currentUser?.email {
          userEmail.text = email
         }
-        
-        // Do any additional setup after loading the view.
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            addImage.image = image
+        } else {
+            print("No image")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
     }
 
+    @IBAction func addImagePressed(_ sender: Any) {
+        present(imagePicker, animated: true, completion: nil)
+        }
+    
     @IBAction func logOutPressed(_ sender: Any) {
         KeychainWrapper.standard.removeObject(forKey: "uid")
         do {
@@ -41,7 +74,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return posts.count
+       
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -49,7 +83,14 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "postCell") as! postCell
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "postCell") as? postCell {
+            cell.configureCell(post: posts[indexPath.row])
+            return cell
+        } else {
+            return postCell()
+        }
+
     }
     
     

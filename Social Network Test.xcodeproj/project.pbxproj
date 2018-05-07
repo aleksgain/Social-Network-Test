@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		14034BB9208E1FBC00BCC522 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14034BB8208E1FBC00BCC522 /* FeedVC.swift */; };
 		14034BBC20976B0300BCC522 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14034BBB20976B0300BCC522 /* DataService.swift */; };
+		14052EA2209BE16E00ACF986 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14052EA1209BE16E00ACF986 /* Post.swift */; };
 		141D254D2087FF2900DB351A /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 141D254C2087FF2900DB351A /* credentials.plist */; };
 		14F5A4402093933D0022BD3E /* postCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F5A43F2093933D0022BD3E /* postCell.swift */; };
 		14F5A44220939AF50022BD3E /* roundImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F5A44120939AF50022BD3E /* roundImg.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		14034BB8208E1FBC00BCC522 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		14034BBB20976B0300BCC522 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		14052EA1209BE16E00ACF986 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		141D254C2087FF2900DB351A /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		14F5A43F2093933D0022BD3E /* postCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postCell.swift; sourceTree = "<group>"; };
 		14F5A44120939AF50022BD3E /* roundImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roundImg.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		14FFCF312084F370001AC347 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				14052EA1209BE16E00ACF986 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				14FFCF3720862EAE001AC347 /* RoundButton.swift in Sources */,
 				14FFCF3520862911001AC347 /* ViewMods.swift in Sources */,
 				14FFCF202084F03A001AC347 /* SignInVC.swift in Sources */,
+				14052EA2209BE16E00ACF986 /* Post.swift in Sources */,
 				14FFCF1E2084F03A001AC347 /* AppDelegate.swift in Sources */,
 				14034BBC20976B0300BCC522 /* DataService.swift in Sources */,
 			);

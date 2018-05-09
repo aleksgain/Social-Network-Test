@@ -275,7 +275,7 @@ EExvZ2luA
                                                             <color key="textColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="capture" translatesAutoresizingMaskIntoConstraints="NO" id="RPc-FU-ETB" userLabel="postImage">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="add-image" translatesAutoresizingMaskIntoConstraints="NO" id="RPc-FU-ETB" userLabel="postImage">
                                                             <rect key="frame" x="8" y="53" width="300" height="300"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="300" id="NaX-Pr-9HV"/>

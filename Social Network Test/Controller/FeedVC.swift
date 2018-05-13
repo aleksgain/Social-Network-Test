@@ -19,8 +19,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     @IBOutlet weak var addImage: CircleView!
     
+    @IBOutlet weak var postCaption: UITextField!
+    
     var posts = [Post]()
     var imagePicker: UIImagePickerController!
+    var imageSelected = false
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     
@@ -55,6 +58,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             addImage.image = image
+            imageSelected = true
         } else {
             print("No image")
         }
@@ -98,6 +102,31 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         }
 
     }
+    
+    @IBAction func postBtnPressed(_ sender: Any) {
+        guard let caption = postCaption.text, caption != "" else {
+            print("Caption is missing")
+            return
+        }
+        guard let image = addImage.image, imageSelected == true else {
+            print("No image")
+            return
+        }
+        if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+            let imageUID = NSUUID().uuidString
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            DataService.ds.REF_POST_IMAGES.child(imageUID).putData(imageData, metadata: metadata) { (metadata, error) in
+                if error != nil {
+                    print("Error uploading image")
+                } else {
+                    print("Successfully uploaded picture to Firebase storage")
+                    let downloadURL = metadata?.downloadURL()?.absoluteString
+                }
+            }
+        }
+    }
+    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

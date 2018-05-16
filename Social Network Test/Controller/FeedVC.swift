@@ -21,6 +21,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     @IBOutlet weak var postCaption: UITextField!
     
+    
     var posts = [Post]()
     var imagePicker: UIImagePickerController!
     var imageSelected = false
@@ -38,6 +39,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         imagePicker.delegate = self
         
         DataService.ds.REF_POSTS.observe(.value) { (snapshot) in
+            self.posts = []
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshots {
                     print(snap)
@@ -48,7 +50,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     }
                 }
                 self.tableView.reloadData()
-            }
+            }            
         }
         if let email = Auth.auth().currentUser?.email {
          userEmail.text = email
@@ -122,9 +124,25 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 } else {
                     print("Successfully uploaded picture to Firebase storage")
                     let downloadURL = metadata?.downloadURL()?.absoluteString
+                    self.postToFirebase(imgUrl: downloadURL!)
+                    self.postCaption.text = "Add a caption"
+                    self.addImage.image = UIImage(named: "add-image")
+                    self.imageSelected = false
+                    self.tableView.reloadData()
                 }
             }
         }
+    }
+    
+    func postToFirebase(imgUrl: String) {
+        let post: Dictionary<String, AnyObject> = [
+            "caption": postCaption.text as AnyObject,
+            "imageUrl": imgUrl as AnyObject,
+            "likes": 0 as AnyObject]
+        
+        let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+        firebasePost.setValue(post)
+        
     }
     
     

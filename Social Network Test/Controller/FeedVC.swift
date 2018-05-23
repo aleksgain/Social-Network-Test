@@ -13,7 +13,7 @@ import SwiftKeychainWrapper
 
 class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    @IBOutlet weak var userEmail: UILabel!
+    @IBOutlet weak var userName: UILabel!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -21,8 +21,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     @IBOutlet weak var postCaption: UITextField!
     
+    @IBOutlet weak var userPic: UIImageView!
     
     var posts = [Post]()
+    var user: UserInf! = nil
     var imagePicker: UIImagePickerController!
     var imageSelected = false
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -38,11 +40,12 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
         
+        
+        
         DataService.ds.REF_POSTS.observe(.value) { (snapshot) in
             self.posts = []
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshots {
-                    print(snap)
                     if let postDict = snap.value as? Dictionary<String,AnyObject> {
                         let key = snap.key
                         let post = Post(postKey: key, postData: postDict)
@@ -50,10 +53,27 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     }
                 }
                 self.tableView.reloadData()
-            }            
+            }
         }
-        if let email = Auth.auth().currentUser?.email {
-         userEmail.text = email
+        
+        DataService.ds.REF_USER_CURRENT.observe(.value) { (snapshot) in
+            self.user = nil
+            if let userData = snapshot.valueInExportFormat() as? Dictionary<String,AnyObject> {
+            let userInf = UserInf(userData: userData)
+            self.user = userInf
+            }
+            self.setUpUser(user: self.user)
+        }
+        
+        
+     }
+    
+    func setUpUser(user: UserInf) {
+        userName.text = user.name
+        if let url = NSURL(string: user.userpic) {
+            if let data = NSData(contentsOf: url as URL) {
+                userPic.image = UIImage(data: data as Data)
+            }
         }
     }
     
@@ -138,7 +158,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         let post: Dictionary<String, AnyObject> = [
             "caption": postCaption.text as AnyObject,
             "imageUrl": imgUrl as AnyObject,
-            "likes": 0 as AnyObject]
+            "likes": 0 as AnyObject,
+            "creatorId": Auth.auth().currentUser?.uid as AnyObject,
+            "creatorName": user.name as AnyObject,
+            "creatorPic": user.userpic as AnyObject]
         
         let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
         firebasePost.setValue(post)

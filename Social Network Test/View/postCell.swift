@@ -11,7 +11,7 @@ import Firebase
 
 class postCell: UITableViewCell {
 
-    @IBOutlet weak var profileImg: UIImageView!
+    @IBOutlet weak var userPic: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var caption: UITextView!
@@ -34,8 +34,14 @@ class postCell: UITableViewCell {
     
     func configureCell(post: Post, img: UIImage? = nil) {
         self.post = post
+        self.userName.text = post.creatorName
         self.caption.text = post.caption
         self.likes.text = "\(post.likes)"
+        if let url = NSURL(string: post.creatorPic) {
+            if let data = NSData(contentsOf: url as URL) {
+                userPic.image = UIImage(data: data as Data)
+            }
+        }
         likesRecieved = DataService.ds.REF_USER_CURRENT.child("likes").child(post.postKey)
         if img != nil {
             self.postImg.image = img

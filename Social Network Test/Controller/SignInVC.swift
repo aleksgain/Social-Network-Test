@@ -31,6 +31,7 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        KeychainWrapper.standard.removeAllKeys()
         if let _ = KeychainWrapper.standard.string(forKey: "uid") {
             performSegue(withIdentifier: "goToFeed", sender: nil)
         }
@@ -82,51 +83,24 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
                 print("Error authenticating with Firebase")
             } else {
                 if let user = user {
-                    let userData = ["provider": credential.provider]
-                    self.signInSegue(id: user.uid, userData: userData)
-                }
+                    let provider = credential.provider
+                    let pic = user.photoURL
+                    let name = user.displayName
+                    let email = user.email
+                    let userData: [String:Any] = ["provider": "\(provider)", "name": "\(name!)", "email": "\(email!)", "userpic": "\(pic!)"]
+                    self.signInSegue(id: user.uid, userData: userData as! Dictionary<String, String>)
+                    }
                 print("Much success authenticating, such wow!")
             }
         })
     }
-    
-//        @IBAction func signInPressed(_ sender: Any) {
-//            if let email = userEmail.text, let pwd = userPassoword.text {
-//                Auth.auth().signIn(withEmail: email, password: pwd) { (user, error) in
-//                    if error == nil {
-//                        print("Access granted with email login")
-//                        self.signInSegue(id: (user?.uid)!)
-//                    } else {
-//                        Auth.auth().createUser(withEmail: email, password: pwd, completion: { (user, error) in
-//                            if error == nil {
-//                                print("Authenticated with email")
-//                                self.signInSegue(id: (user?.uid)!)
-//                            } else {
-//                                let credential = EmailAuthProvider.credential(withEmail: email, password: pwd)
-//                                print(credential)
-//                                Auth.auth().currentUser?.link(with: credential, completion: { (user, error) in
-//                                if error != nil {
-//                                print("Error merging", error)
-//                                    } else {
-//                                        print("Merging successfull")
-//                                        self.signInSegue(id: (user?.uid)!)
-//                                        }
-//                                    })
-//
-//                            }
-//                        })
-//                    }
-//                }
-//
-//            }
-//        }
     
     @IBAction func signInPressed(_ sender: Any) {
         if let email = userEmail.text, let pwd = userPassoword.text {
             Auth.auth().signIn(withEmail: email, password: pwd) { (user, error) in
                 if error == nil {
                     print("Access granted with email login")
-                      let userData = ["provider": user!.providerID]
+                    let userData = ["provider": user!.providerID]
                     self.signInSegue(id: (user?.uid)!, userData: userData)
                 } else {
                     Auth.auth().createUser(withEmail: email, password: pwd, completion: { (user, error) in
@@ -134,21 +108,41 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
                             print("Authentication with email failed")
                         } else {
                             print("Authenticated with email")
-                              let userData = ["provider": user!.providerID]
+                            let userData = ["provider": user!.providerID]
                             self.signInSegue(id: (user?.uid)!, userData: userData)
-                        }
-                    })
+                            }
+               
                 }
-            }
+           ) }
 
         }
+    }
     }
 
     func signInSegue(id: String, userData: Dictionary<String, String>) {
         KeychainWrapper.standard.set(id, forKey: "uid")
         DataService.ds.createDBUser(uid: id, userData: userData)
         performSegue(withIdentifier: "goToFeed", sender: nil)
-        
+
     }
+    
+    func namePopUp() {
+        let alert = UIAlertController(title: "Capture", message: "Please enter your username", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Continue", style: .default) { (action: UIAlertAction) in
+            let name = alert.textFields?[0].text
+            //self.userName = name
+           }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+        }
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Name"
+        }
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    
+      }
+    
     
 }

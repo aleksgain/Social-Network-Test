@@ -15,6 +15,9 @@ class Post {
     private var _caption: String!
     private var _likes: Int!
     private var _imageUrl: String!
+    private var _creatorId: String!
+    private var _creatorName: String!
+    private var _creatorPic: String!
     private var _postRef: DatabaseReference!
     
     var caption: String {
@@ -31,6 +34,18 @@ class Post {
 
     var postKey: String {
         return _postKey
+    }
+    
+    var creatorId: String {
+        return _creatorId
+    }
+    
+    var creatorName: String {
+        return _creatorName
+    }
+    
+    var creatorPic: String {
+        return _creatorPic
     }
     
     init(caption: String, likes: Int, imageUrl: String) {
@@ -54,6 +69,18 @@ class Post {
         self._likes = likes
         }
     
+        if let creatorId = postData["creatorId"] as? String {
+            self._creatorId = creatorId
+        }
+        
+        if let creatorName = postData["creatorName"] as? String {
+            self._creatorName = creatorName
+        }
+        
+        if let creatorPic = postData["creatorPic"] as? String {
+            self._creatorPic = creatorPic
+        }
+        
         _postRef = DataService.ds.REF_POSTS.child(_postKey)
         
     }
@@ -65,7 +92,7 @@ class Post {
             _likes = _likes - 1
         }
         _postRef.child("likes").setValue(_likes)
-        
+                
     }
     
 }

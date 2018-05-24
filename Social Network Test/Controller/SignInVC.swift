@@ -13,7 +13,7 @@ import SwiftKeychainWrapper
 
 
 class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
-
+    
     
     
     
@@ -25,18 +25,18 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
-
         
- 
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        KeychainWrapper.standard.removeAllKeys()
+        //KeychainWrapper.standard.removeAllKeys()
         if let _ = KeychainWrapper.standard.string(forKey: "uid") {
             performSegue(withIdentifier: "goToFeed", sender: nil)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -49,47 +49,47 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
         googleSignIn?.signIn()
         
         if googleSignIn?.hasAuthInKeychain() == true {
-   
+            
         }
     }
-        
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-            return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
-        }
-        
-        
+        return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
+    }
+    
+    
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let authentication = user.authentication else {return}
-            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-            
-            self.firebaseAuth(credential)
-        
-        
+        if let error = error {
+            print(error.localizedDescription)
+            return
         }
         
+        guard let authentication = user.authentication else {return}
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
+        self.firebaseAuth(credential)
+        
+        
+    }
+    
+    
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-            //handle Google sign out
-        }
+        KeychainWrapper.standard.removeAllKeys()
+    }
     
     func firebaseAuth(_ credential: AuthCredential) {
-        Auth.auth().signIn(with: credential, completion: { (user, error) in
+        Auth.auth().signInAndRetrieveData(with: credential, completion: { (user, error) in
             if error != nil {
                 print("Error authenticating with Firebase")
             } else {
                 if let user = user {
                     let provider = credential.provider
-                    let pic = user.photoURL
-                    let name = user.displayName
-                    let email = user.email
+                    let pic = user.user.photoURL
+                    let name = user.user.displayName
+                    let email = user.user.email
                     let userData: [String:Any] = ["provider": "\(provider)", "name": "\(name!)", "email": "\(email!)", "userpic": "\(pic!)"]
-                    self.signInSegue(id: user.uid, userData: userData as! Dictionary<String, String>)
-                    }
+                    self.signInSegue(id: user.user.uid, userData: userData as! Dictionary<String, String>)
+                }
                 print("Much success authenticating, such wow!")
             }
         })
@@ -100,7 +100,7 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
             Auth.auth().signIn(withEmail: email, password: pwd) { (user, error) in
                 if error == nil {
                     print("Access granted with email login")
-                    let userData = ["provider": user!.providerID]
+                    let userData = [String:String]()
                     self.signInSegue(id: (user?.uid)!, userData: userData)
                 } else {
                     Auth.auth().createUser(withEmail: email, password: pwd, completion: { (user, error) in
@@ -108,41 +108,23 @@ class SignInVC: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
                             print("Authentication with email failed")
                         } else {
                             print("Authenticated with email")
-                            let userData = ["provider": user!.providerID]
+                            let userData = ["provider": user!.providerID, "email": "\(email)", "name": "\(email)"]
                             self.signInSegue(id: (user?.uid)!, userData: userData)
-                            }
-               
-                }
-           ) }
-
+                        }
+                        
+                    }
+                    ) }
+                
+            }
         }
     }
-    }
-
+    
     func signInSegue(id: String, userData: Dictionary<String, String>) {
         KeychainWrapper.standard.set(id, forKey: "uid")
         DataService.ds.createDBUser(uid: id, userData: userData)
         performSegue(withIdentifier: "goToFeed", sender: nil)
-
-    }
-    
-    func namePopUp() {
-        let alert = UIAlertController(title: "Capture", message: "Please enter your username", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Continue", style: .default) { (action: UIAlertAction) in
-            let name = alert.textFields?[0].text
-            //self.userName = name
-           }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-        }
         
-        alert.addTextField { (textField) in
-            textField.placeholder = "Name"
-        }
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true)
-    
-      }
+    }
     
     
 }

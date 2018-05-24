@@ -161,7 +161,7 @@ EExvZ2luA
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8k-yy-SDv" customClass="ViewMods" customModule="Social_Network_Test" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="google" translatesAutoresizingMaskIntoConstraints="NO" id="voh-AQ-q8n" userLabel="userPic" customClass="CircleView" customModule="Social_Network_Test" customModuleProvider="target">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="voh-AQ-q8n" userLabel="userPic" customClass="CircleView" customModule="Social_Network_Test" customModuleProvider="target">
                                         <rect key="frame" x="8" y="20" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="XnG-Sc-5QO"/>
@@ -265,7 +265,7 @@ EExvZ2luA
                                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pcQ-lR-yMq" customClass="ViewMods" customModule="Social_Network_Test" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="19" width="316" height="415"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="google" translatesAutoresizingMaskIntoConstraints="NO" id="nRF-xz-5hZ" userLabel="userPic" customClass="CircleView" customModule="Social_Network_Test" customModuleProvider="target">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="portrait-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="nRF-xz-5hZ" userLabel="userPic" customClass="CircleView" customModule="Social_Network_Test" customModuleProvider="target">
                                                             <rect key="frame" x="4" y="5" width="40" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="XqI-Uf-gcK"/>
@@ -408,6 +408,7 @@ EExvZ2luA
         <image name="capture" width="271" height="86"/>
         <image name="empty-heart" width="70" height="70"/>
         <image name="google" width="768" height="768"/>
+        <image name="portrait-placeholder" width="120" height="120"/>
         <image name="sign-out" width="92" height="65"/>
     </resources>
 </document>

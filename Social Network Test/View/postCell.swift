@@ -17,6 +17,7 @@ class postCell: UITableViewCell {
     @IBOutlet weak var caption: UITextView!
     @IBOutlet weak var likes: UILabel!
     @IBOutlet weak var likeImg: CircleView!
+    @IBOutlet weak var deleteBtn: UIButton!
     
     var post: Post!
     var likesRecieved: DatabaseReference!
@@ -71,6 +72,12 @@ class postCell: UITableViewCell {
                 self.likeImg.image = UIImage(named: "filled-heart")
             }
         }
+        
+        let currUsr = Auth.auth().currentUser?.uid
+        let postUSr = post.creatorId //DataService.ds.REF_POSTS.child(post.postKey).value(forKey: "creatorId") as? String
+        if currUsr! == postUSr {
+            deleteBtn.isHidden = false
+        }
     }
     
     @objc func likeTapped(sender: UITapGestureRecognizer) {
@@ -87,4 +94,7 @@ class postCell: UITableViewCell {
         }
     }
     
+    @IBAction func deletePressed(_ sender: Any) {
+        DataService.ds.REF_POSTS.child(post.postKey).removeValue()
+    }
 }

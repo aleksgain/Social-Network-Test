@@ -26,7 +26,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     var posts = [Post]()
     var user: UserInf! = nil
     var imagePicker: UIImagePickerController!
+    var userpicPicker: UIImagePickerController!
     var imageSelected = false
+    var image: UIImage!
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     
@@ -39,8 +41,15 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         imagePicker = UIImagePickerController()
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
-        
-        
+
+        let usertap = UITapGestureRecognizer(target: self, action: #selector(userNameTapped))
+        usertap.numberOfTapsRequired = 1
+        userName.addGestureRecognizer(usertap)
+        userName.isUserInteractionEnabled = true
+        let pictap = UITapGestureRecognizer(target: self, action: #selector(userPicTapped))
+        pictap.numberOfTapsRequired = 1
+        userPic.addGestureRecognizer(pictap)
+        userPic.isUserInteractionEnabled = true
         
         DataService.ds.REF_POSTS.observe(.value) { (snapshot) in
             self.posts = []
@@ -78,8 +87,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.image = nil
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-            addImage.image = image
+            self.image = image
             imageSelected = true
         } else {
             print("No image")
@@ -88,8 +98,12 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
 
     @IBAction func addImagePressed(_ sender: Any) {
-        present(imagePicker, animated: true, completion: nil)
-        }
+        present(imagePicker, animated: true, completion: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+            self.addImage.image = self.image
+        })
+        })
+    }
     
     @IBAction func logOutPressed(_ sender: Any) {
         KeychainWrapper.standard.removeObject(forKey: "uid")
@@ -168,7 +182,47 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
     }
     
+    @objc func userNameTapped(sender: UITapGestureRecognizer) {
+        let alert = UIAlertController(title: "", message: "Enter new name:", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = self.userName.text
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0].text
+            self.userName.text = textField
+            DataService.ds.REF_USER_CURRENT.child("name").setValue(textField)
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
+    @objc func userPicTapped(sender: UITapGestureRecognizer) {
+        present(imagePicker, animated: true, completion: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
+                self.userPic.image = self.image
+            })
+        })
+        guard let image = userPic.image else {
+            print("No image")
+            return
+        }
+        if let imageData = UIImageJPEGRepresentation(image, 0.0) {
+            let userID = Auth.auth().currentUser?.uid
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            DataService.ds.REF_USERS_UPICS.child(userID!).putData(imageData, metadata: metadata) { (metadata, error) in
+                if error != nil {
+                    print("Error uploading image")
+                } else {
+                    print("Successfully uploaded picture to Firebase storage")
+                    let downloadURL = metadata?.downloadURL()?.absoluteString
+                    let firebaseUser = DataService.ds.REF_USER_CURRENT.child("userpic")
+                    firebaseUser.setValue(downloadURL)
+                }
+            }
+        }
+
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.

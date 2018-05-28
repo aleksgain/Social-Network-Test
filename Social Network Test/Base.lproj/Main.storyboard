@@ -168,7 +168,7 @@ EExvZ2luA
                                             <constraint firstAttribute="width" constant="40" id="xL1-dW-TTX"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userEmail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlb-Mg-ois" userLabel="userName">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userEmail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlb-Mg-ois" userLabel="userName">
                                         <rect key="frame" x="140" y="31" width="95" height="24"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -321,6 +321,20 @@ EExvZ2luA
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ujX-1g-zqP">
+                                                            <rect key="frame" x="268" y="361" width="40" height="15"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="21" id="72H-4A-M6k"/>
+                                                                <constraint firstAttribute="width" constant="40" id="sLv-g7-woO"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                                                            <state key="normal" title="Delete">
+                                                                <color key="titleColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="deletePressed:" destination="OpR-aC-GqW" eventType="touchUpInside" id="2QA-RC-fVx"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -336,8 +350,10 @@ EExvZ2luA
                                                         <constraint firstItem="RPc-FU-ETB" firstAttribute="top" secondItem="gVK-LP-sdd" secondAttribute="bottom" constant="18" id="QBU-aF-nrC"/>
                                                         <constraint firstItem="nqJ-CL-G40" firstAttribute="leading" secondItem="pcQ-lR-yMq" secondAttribute="leading" constant="8" id="WiH-SK-9tQ"/>
                                                         <constraint firstAttribute="trailing" secondItem="K86-dG-0nv" secondAttribute="trailing" constant="4" id="ZSl-4L-Yqh"/>
+                                                        <constraint firstAttribute="trailing" secondItem="ujX-1g-zqP" secondAttribute="trailing" constant="8" id="bCG-Of-17a"/>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gVK-LP-sdd" secondAttribute="trailing" constant="20" symbolic="YES" id="d92-kJ-Gid"/>
                                                         <constraint firstItem="K86-dG-0nv" firstAttribute="top" secondItem="pcQ-lR-yMq" secondAttribute="top" constant="4" id="dLa-ME-t2y"/>
+                                                        <constraint firstItem="1CB-Jc-slX" firstAttribute="top" secondItem="ujX-1g-zqP" secondAttribute="bottom" constant="2" id="ftG-UV-sdu"/>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9FR-cM-EA7" secondAttribute="trailing" constant="20" symbolic="YES" id="h2r-mb-f0g"/>
                                                         <constraint firstItem="nqJ-CL-G40" firstAttribute="firstBaseline" secondItem="9FR-cM-EA7" secondAttribute="firstBaseline" id="hSj-Ps-z8T"/>
                                                         <constraint firstItem="nRF-xz-5hZ" firstAttribute="top" secondItem="pcQ-lR-yMq" secondAttribute="top" constant="4" id="iEu-qZ-OLw"/>
@@ -358,6 +374,7 @@ EExvZ2luA
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="caption" destination="1CB-Jc-slX" id="AMZ-PW-jRx"/>
+                                            <outlet property="deleteBtn" destination="ujX-1g-zqP" id="2sy-IK-BBx"/>
                                             <outlet property="likeImg" destination="K86-dG-0nv" id="7R5-Oa-xWl"/>
                                             <outlet property="likes" destination="9FR-cM-EA7" id="T8X-xH-kdX"/>
                                             <outlet property="postImg" destination="RPc-FU-ETB" id="z91-6o-O07"/>
